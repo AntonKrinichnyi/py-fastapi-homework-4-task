@@ -62,7 +62,7 @@ async def create_profile(
         user = result.scalars().first()
         if not user or not user.is_active:
             raise HTTPException(
-                satus_code=status.HTTP_401_UNAUTHORIZED,
+                status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="User not found or not active."
             )
         stmt_profile = (select(UserProfileModel)
@@ -91,6 +91,7 @@ async def create_profile(
             last_name=profile_data.last_name,
             gender=cast(GenderEnum, profile_data.gender),
             date_of_birth=profile_data.date_of_birth,
+            avatar=avatar_key
         )
         db.add(new_profile)
         await db.commit()
